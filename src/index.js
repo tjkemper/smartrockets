@@ -35,13 +35,14 @@ let population;
 let target;
 const lifespan = 300;
 const populationSize = 100;
-let count = 0;
 let generation = 0;
 const vectorMag = 1;
 const gravity = [0, .01];
 
+let day;
 
 function setup() {
+  day = 0;
   population = new Population(populationSize, app.stage, app.loader.resources[rocketImg].texture, app.renderer.width, app.renderer.height, lifespan, vectorMag);
   
   // Load default target
@@ -67,15 +68,15 @@ function smartRocketsState(delta) {
   for (let i = 0; i < population.rockets.length; i++) {
     updateRocket(population.rockets[i], target);
   }
-  count++;
-  document.getElementById("count").innerHTML = "Day: " + count;
+  day++;
+  document.getElementById("day").innerHTML = "Day: " + day;
   document.getElementById("gen").innerHTML = "Generation: " + generation;
 
-  if (count >= lifespan) {
+  if (day >= lifespan) {
     population.evaluate(target);
     population.selection();
     population.display();
-    count = 0;
+    day = 0;
     generation++;
   }
 }
@@ -84,7 +85,7 @@ function smartRocketsState(delta) {
 function updateRocket(rocket, target) {
   if (helper.outOfBounds(rocket.sprite, app.renderer.width, app.renderer.height)) {
     rocket.crashed = true;
-    rocket.dayCrashed = count;
+    rocket.dayCrashed = day;
   }
 
   // TODO: break after first crash: https://stackoverflow.com/questions/2641347/short-circuit-array-foreach-like-calling-break
@@ -92,13 +93,13 @@ function updateRocket(rocket, target) {
     if (helper.rectRect(rocket.sprite.x, rocket.sprite.y, rocket.sprite.width, rocket.sprite.height,
                         obstacle.x, obstacle.y, obstacle.width, obstacle.height)) {
       rocket.crashed = true;
-      rocket.dayCrashed = count;
+      rocket.dayCrashed = day;
     }
   });
 
   if (helper.spriteCollide(rocket.sprite, target)) {
     rocket.finished = true;
-    rocket.dayFinished = count;
+    rocket.dayFinished = day;
     rocket.sprite.x = target.x + (target.width / 2) - (rocket.sprite.width / 2);
     rocket.sprite.y = target.y + (target.height / 2) - (rocket.sprite.height / 2);
   }
@@ -108,7 +109,7 @@ function updateRocket(rocket, target) {
     rocket.vel = helper.addVectors(rocket.vel, gravity);
 
     // Add rocket acceleration to velocity
-    rocket.vel = helper.addVectors(rocket.vel, rocket.dna.genes[count]);
+    rocket.vel = helper.addVectors(rocket.vel, rocket.dna.genes[day]);
 
     // Add velocity to position
     let pos = [rocket.sprite.x, rocket.sprite.y];
