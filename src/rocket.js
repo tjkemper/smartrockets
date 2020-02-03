@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js';
 
 export function Rocket(texture, windowWidth, windowHeight, lifespan, vectorMag, smiteRocketFunc, dna) {
   this.dna = dna || new DNA(lifespan, vectorMag);
-  this.vel = helper.Random2DVector(vectorMag);
+  this.vel = helper.ZERO_VECTOR;
   this.crashed = false;
   this.dayCrashed = null;
   this.finished = false;

@@ -1,5 +1,7 @@
+// Constants
+export const ZERO_VECTOR = [0, 0];
 
-
+// Helper functions
 export function randomElement(list) {
   return list[Math.floor(Math.random() * list.length)];
 }
