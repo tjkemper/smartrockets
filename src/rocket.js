@@ -2,14 +2,14 @@ import { DNA } from './dna.js';
 import * as helper from './helper.js';
 import * as PIXI from 'pixi.js';
 
-export function Rocket(texture, windowWidth, windowHeight, lifespan, vectorMag, dna) {
+export function Rocket(texture, windowWidth, windowHeight, lifespan, vectorMag, smiteRocketFunc, dna) {
   this.dna = dna || new DNA(lifespan, vectorMag);
   this.vel = helper.Random2DVector(vectorMag);
   this.crashed = false;
   this.dayCrashed = null;
   this.finished = false;
   this.dayFinished = null;
-  this.inverseDist = 0;
+  this.smote = false;
   this.fitness = 0;
   
   this.sprite = new PIXI.Sprite(texture);
@@ -17,6 +17,13 @@ export function Rocket(texture, windowWidth, windowHeight, lifespan, vectorMag, 
   this.sprite.height = 30;
   this.sprite.x = windowWidth / 2;
   this.sprite.y = windowHeight - this.sprite.height - 50;
+
+  // Smite rockets with mouseover
+  this.sprite.interactive = true;
+  let that = this;
+  this.sprite.mouseover = function(mouseoverEvent) {
+    smiteRocketFunc(that);
+  }
 
   this.windowWidth = windowWidth;
   this.windowHeight = windowHeight;

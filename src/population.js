@@ -3,7 +3,8 @@ import * as PIXI from 'pixi.js';
 import * as helper from './helper.js';
 
 export function Population(size, rootStage, rocketTexture, windowWidth, windowHeight, lifespan, vectorMag) {
-  this.size = size || 10;
+  this.populationSize = size || 10;
+  this.functionalPopSize = this.populationSize;
   this.rockets = [];
   this.matingPool = [];
 
@@ -15,10 +16,19 @@ export function Population(size, rootStage, rocketTexture, windowWidth, windowHe
 
   this.vectorMag = vectorMag;
 
+  let that = this;
+  this.smiteRocket = function(rocket) {
+    if (that.functionalPopSize > 1) {
+      rocket.smote = true;
+      that.rocketContainer.removeChild(rocket.sprite);
+      that.functionalPopSize--;
+    }
+  }
+
   this.initRockets = function() {
     this.rockets = [];
-    for (let i = 0; i < this.size; i++) {
-      let newRocket = new Rocket(this.rocketTexture, this.windowWidth, this.windowHeight, lifespan, this.vectorMag);
+    for (let i = 0; i < this.populationSize; i++) {
+      let newRocket = new Rocket(this.rocketTexture, this.windowWidth, this.windowHeight, lifespan, this.vectorMag, this.smiteRocket);
       this.rockets.push(newRocket);
     }
   }
@@ -55,6 +65,9 @@ export function Population(size, rootStage, rocketTexture, windowWidth, windowHe
     this.matingPool = [];
     this.rockets.forEach((rocket) => {
       let geneCopies = rocket.fitness * 100;
+      if (rocket.smote) {
+        geneCopies = 0;
+      }
       for (let i = 0; i < geneCopies; i++) {
         this.matingPool.push(rocket);
       }
@@ -63,14 +76,15 @@ export function Population(size, rootStage, rocketTexture, windowWidth, windowHe
 
   this.selection = function() {
     let newRockets = [];
-    for (let i = 0; i < this.rockets.length; i++) {
+    for (let i = 0; i < this.populationSize; i++) {
       let parentA = helper.randomElement(this.matingPool).dna;
       let parentB = helper.randomElement(this.matingPool).dna;
       let child = parentA.crossover(parentB);
       child.mutation();
-      newRockets.push(new Rocket(this.rocketTexture, this.windowWidth, this.windowHeight, lifespan, this.vectorMag, child));
+      newRockets.push(new Rocket(this.rocketTexture, this.windowWidth, this.windowHeight, lifespan, this.vectorMag, this.smiteRocket, child));
     }
     this.rockets = newRockets;
+    this.functionalPopSize = this.rockets.length;
   }
 
 }
