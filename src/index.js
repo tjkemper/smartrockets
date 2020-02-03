@@ -67,14 +67,15 @@ function initTarget() {
   app.stage.addChild(target);
 }
 
-
 function smartRocketsState(delta) {
   for (let i = 0; i < population.rockets.length; i++) {
     updateRocket(population.rockets[i], target);
   }
   day++;
+  document.getElementById("lifespan").innerHTML = "Lifespan: " + lifespan;
   document.getElementById("day").innerHTML = "Day: " + day;
   document.getElementById("gen").innerHTML = "Generation: " + generation;
+  document.getElementById("population").innerHTML = "Population: " + population.functionalPopSize;
 
   if (day >= lifespan) {
     population.evaluate(target);
@@ -213,4 +214,3 @@ document.getElementById("reset").addEventListener("click", function(e) {
   app.ticker.remove(tickerFunc);
   setup();
 });
-
