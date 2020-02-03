@@ -31,18 +31,22 @@ let state = smartRocketsState;
 //       Is it obvious which direction is the right one?  I bet there are interesting and fun puzzles to play alongside ML.
 //       Or make it simple and cool: https://www.youtube.com/watch?v=5xN4DxdiFrs
 // TODO: Better physics: https://www.khanacademy.org/science/physics/two-dimensional-motion/two-dimensional-projectile-mot/a/what-is-2d-projectile-motion
-let population;
-let target;
 const lifespan = 300;
 const populationSize = 100;
-let generation = 0;
-const vectorMag = 1;
+const vectorMag = 0.5;
 const gravity = [0, .01];
+const tickerFunc = function(delta) {
+  state(delta);
+}
 
+let population;
+let target;
 let day;
+let generation;
 
 function setup() {
   day = 0;
+  generation = 0;
   population = new Population(populationSize, app.stage, app.loader.resources[rocketImg].texture, app.renderer.width, app.renderer.height, lifespan, vectorMag);
   
   // Load default target
@@ -50,7 +54,7 @@ function setup() {
   // Load default map
   app.stage.addChild(maps[mapIndex]);
 
-  app.ticker.add(delta => state(delta));
+  app.ticker.add(tickerFunc);
 }
 
 function initTarget() {
@@ -202,5 +206,11 @@ function map3() {
 
 document.getElementById("changeMap").addEventListener("click", function(e) {
   loadNextMap();
+});
+
+document.getElementById("reset").addEventListener("click", function(e) {
+  app.stage.removeChildren();
+  app.ticker.remove(tickerFunc);
+  setup();
 });
 
