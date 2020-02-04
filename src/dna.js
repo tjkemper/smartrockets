@@ -12,7 +12,6 @@ export function DNA(lifespan, vectorMag, genes) {
     }
   }
 
-  // TODO: better crossover algorithm: https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)
   this.crossover = function(partner) {
     let newGenes = [];
     // Pick random split point

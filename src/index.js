@@ -23,14 +23,6 @@ app.loader
 
 let state = smartRocketsState;
 
-// TODO: Allow user to customize variables
-// TODO: Allow user to move the target
-// TODO: Allow user to change the map
-// TODO: Make hard maps and race to complete them
-// TODO: Allow users to delete rockets during the genetic algorithm.  They can guide the rockets to go in the right direction.
-//       Is it obvious which direction is the right one?  I bet there are interesting and fun puzzles to play alongside ML.
-//       Or make it simple and cool: https://www.youtube.com/watch?v=5xN4DxdiFrs
-// TODO: Better physics: https://www.khanacademy.org/science/physics/two-dimensional-motion/two-dimensional-projectile-mot/a/what-is-2d-projectile-motion
 const lifespan = 300;
 const populationSize = 100;
 const vectorMag = 0.5;
@@ -86,7 +78,6 @@ function smartRocketsState(delta) {
   }
 }
 
-  // TODO: utilize quadtrees for efficient collision detection.  Broad vs Narrow.
 function updateRocket(rocket, target) {
   if (helper.outOfBounds(rocket.sprite, app.renderer.width, app.renderer.height)) {
     rocket.crashed = true;
@@ -122,10 +113,6 @@ function updateRocket(rocket, target) {
   }
 }
 
-// TODO
-function titleState(){}
-function endState(){}
-
 function loadProgressHandler(loader, resource) {
   //Display the file `url` currently being loaded
   console.log("loading: " + resource.url); 
@@ -134,7 +121,6 @@ function loadProgressHandler(loader, resource) {
   console.log("progress: " + loader.progress + "%"); 
 }
 
-// TODO: Define crash and bounce obstacles
 // Maps
 let mapIndex = 0;
 let maps = [
