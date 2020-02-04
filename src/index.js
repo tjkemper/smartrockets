@@ -23,7 +23,7 @@ app.loader
 
 let state = smartRocketsState;
 
-const lifespan = 300;
+const lifespan = 500;
 const populationSize = 100;
 const vectorMag = 0.5;
 const gravity = [0, .01];
