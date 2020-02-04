@@ -138,9 +138,9 @@ function loadProgressHandler(loader, resource) {
 // Maps
 let mapIndex = 0;
 let maps = [
+  birdhouseMap(),
   map1(),
-  map2(),
-  map3(),
+  
 ];
 function loadNextMap() {
   app.stage.removeChild(maps[mapIndex]);
@@ -157,22 +157,6 @@ function map1() {
   let oW = 500;
   let oH = 10;
   let oX = app.renderer.width / 2 - oW / 2;
-  let oY = 300;
-  let rect = new PIXI.Graphics();
-  rect.beginFill(0x000000);
-  rect.drawRect(0, 0, oW, oH);
-  rect.position.set(oX, oY)
-
-  mapContainer.addChild(rect);
-  return mapContainer;
-}
-
-function map2() {
-  let mapContainer = new PIXI.Container();
-
-  let oW = 500;
-  let oH = 10;
-  let oX = app.renderer.width / 2 - oW / 2;
   let oY = 400;
   let rect = new PIXI.Graphics();
   rect.beginFill(0xFFFFFF);
@@ -183,23 +167,26 @@ function map2() {
   return mapContainer;
 }
 
-function map3() {
+function birdhouseMap() {
   let mapContainer = new PIXI.Container();
 
   let style = new PIXI.TextStyle({
-    fontFamily: "Arial",
-    fontSize: 36,
+    fontFamily: "Courier New",
+    fontSize: 70,
+    fontWeight: "bolder",
     fill: "white",
     stroke: '#000000',
     strokeThickness: 4,
     dropShadow: true,
-    dropShadowColor: "#000000",
+    dropShadowColor: "#999999",
     dropShadowBlur: 4,
     dropShadowAngle: Math.PI / 6,
     dropShadowDistance: 6,
   });
-  let message = new PIXI.Text("Welcome to the Birdhouse", style);
-  message.position.set(300, 300);
+  let message = new PIXI.Text("birdhouse.", style);
+  let x = app.renderer.width / 2 - message.width / 2;
+  let y = 300;
+  message.position.set(x, y);
 
   mapContainer.addChild(message);
   return mapContainer;
