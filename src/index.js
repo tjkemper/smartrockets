@@ -84,7 +84,6 @@ function updateRocket(rocket, target) {
     rocket.dayCrashed = day;
   }
 
-  // TODO: break after first crash: https://stackoverflow.com/questions/2641347/short-circuit-array-foreach-like-calling-break
   maps[mapIndex].children.forEach((obstacle) => {
     if (helper.rectRect(rocket.sprite.x, rocket.sprite.y, rocket.sprite.width, rocket.sprite.height,
                         obstacle.x, obstacle.y, obstacle.width, obstacle.height)) {
